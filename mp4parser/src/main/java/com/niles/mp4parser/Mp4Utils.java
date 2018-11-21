@@ -57,19 +57,27 @@ public class Mp4Utils {
         return mp4Info;
     }
 
+    public static Bitmap snap(String path, int time) {
+        return snap(path, time, MediaMetadataRetriever.OPTION_CLOSEST);
+    }
+
     /**
      * 获取视频的某一帧图片
      *
-     * @param path mp4文件路径
-     * @param time 截图时间，单位秒
+     * @param path   mp4文件路径
+     * @param time   截图时间，单位秒
+     * @param option 关键帧选项{@see MediaMetadataRetriever.OPTION_PREVIOUS_SYNC}
+     *               {@see MediaMetadataRetriever.OPTION_NEXT_SYNC}
+     *               {@see MediaMetadataRetriever.OPTION_CLOSEST_SYNC}
+     *               {@see MediaMetadataRetriever.OPTION_CLOSEST}
      * @return 图片
      */
-    public static Bitmap snap(String path, int time) {
+    public static Bitmap snap(String path, int time, int option) {
         // 解析文件
         MediaMetadataRetriever retriever = new MediaMetadataRetriever();
         retriever.setDataSource(path);
 
-        Bitmap frame = retriever.getFrameAtTime(time * 1000 * 1000, MediaMetadataRetriever.OPTION_CLOSEST);
+        Bitmap frame = retriever.getFrameAtTime(time * 1000 * 1000, option);
 
         retriever.release();
 
